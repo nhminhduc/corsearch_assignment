@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { useUserStore } from "../store/userStore";
-import { debounce } from "lodash";
 import { User } from "@/types";
+import useDebounce from "@/hooks/useDebounce";
 
 const fetchUsers = async (): Promise<User[]> => {
   try {
@@ -30,6 +30,7 @@ const UserList = ({
   sortField,
   sortOrder,
 }: UserListProps) => {
+  const debouncedFilterText = useDebounce(filterText, 300);
   const { setUsers, filteredUsers, applyFilterAndSort } = useUserStore();
 
   const { data: users, error } = useSuspenseQuery<User[]>({
@@ -44,13 +45,14 @@ const UserList = ({
   }, [users, setUsers]);
 
   useEffect(() => {
-    const debouncedApplyFilterAndSort = debounce(applyFilterAndSort, 300);
-    debouncedApplyFilterAndSort(filterText, filterField, sortField, sortOrder);
-
-    return () => {
-      debouncedApplyFilterAndSort.cancel();
-    };
-  }, [filterText, filterField, sortField, sortOrder, applyFilterAndSort]);
+    applyFilterAndSort(debouncedFilterText, filterField, sortField, sortOrder);
+  }, [
+    debouncedFilterText,
+    filterField,
+    sortField,
+    sortOrder,
+    applyFilterAndSort,
+  ]);
 
   if (error) {
     return (
