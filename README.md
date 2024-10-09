@@ -1,50 +1,36 @@
-# React + TypeScript + Vite
+# Coding Assignment
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Description
 
-Currently, two official plugins are available:
+This project is a React application that utilizes Zustand for state management and React Query for data fetching. It includes components for displaying user information and supports filtering and sorting functionalities.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Reasons for Technology Choices
 
-## Expanding the ESLint configuration
+- **Vite**: Chosen for its fast hot module replacement (HMR), significantly improving the development experience by enabling instant feedback on code changes.
+- **Vitest**: Selected for testing because it offers a Jest-like experience with Vite's native ES modules support, making it faster and more efficient for modern JavaScript projects.
+- **Playwright**: Used for end-to-end testing to ensure that the application behaves as expected in real-world scenarios across different browsers. It provides reliable automation and supports advanced testing needs.
+- **Zustand**: A minimalistic state management solution that simplifies state logic in React applications. It's chosen for its simplicity, ease of use, and performance benefits.
+- **@tanstack/react-query**: Utilized for fetching, caching, and updating data in React applications. It simplifies data fetching and state management with efficient caching and background updates, improving user experience and application performance.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Installation
 
-- Configure the top-level `parserOptions` property like this:
+To install the project dependencies, run:
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+```
+pnpm install
+pnpm dev
+pnpm test
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## Configuration
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+- **Vitest Configuration**: The testing configuration is defined in `vitest.config.ts` which sets up the environment and global settings for tests.
+- **Playwright Configuration**: The end-to-end testing configuration is in `playwright.config.ts`, specifying test directories, parallel execution, and browser settings.
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+## Code Quality
+
+- **ESLint**: The project uses ESLint for linting, with configurations specified in `eslint.config.js`. It helps maintain code quality and consistency across the project.
+
+## Mock Data
+
+Mock data for users is available in `src/mockData/users.ts` for testing purposes. This allows for the simulation of real data fetching scenarios during development and testing.

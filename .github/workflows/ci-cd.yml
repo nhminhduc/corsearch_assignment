@@ -1,0 +1,50 @@
+name: Continuous Integration and Deployment to Github Pages
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout code
+      - uses: actions/checkout@v4
+
+      # Setup Node.js environment
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      # Cache node_modules to speed up npm install
+      - name: Cache node_modules
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node_modules-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node_modules-
+
+      # Install dependencies
+      - run: npm install
+
+      # Run linter
+      - name: Run Linter
+        run: npm run lint
+
+      # Run unit tests
+      - name: Run Unit Tests
+        run: npm run test
+
+      # Build application (predeploy step)
+      - name: Build for Deployment
+        run: npm run predeploy
+
+      # Deploy to GitHub Pages
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
