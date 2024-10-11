@@ -1,1 +1,1 @@
-npx start-server-and-test 'pnpm run dev' http://localhost:5173 'pnpm run e2e'
+pnpm test
